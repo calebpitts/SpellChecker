@@ -47,7 +47,11 @@ int main() {
     SpellChecker s;
 
     w = WordSet(file_name);
+    w.initialize_hash();
     w.traverse_file();
+    // w.add_word();
+    // w.add_word();
+    w.display_hash(); //REMOVE LATER
     // use hash map in SpellChecker >>>>>>>
 
 
