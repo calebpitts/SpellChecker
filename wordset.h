@@ -16,19 +16,24 @@ class WordSet {
  public:
     WordSet() {}
     explicit WordSet(std::string file_name) : file_name(file_name) {}
-    void traverse_file();
-    void display_hash();  // REMOVE THIS LATER
-    void add_word(std::string word);  // MOVE THIS LATER
-    void initialize_hash(); // MOVE THIS TO PRIVATE
+    void create_wordset_reference();
+    void display_hash();
+    void add_word(std::string word);  // Move later??
  private:
     struct Node {
         Node* next;
         Node* prev;
         std::string word;
     };
-    // void initialize_hash();
-    int hash_function(std::string word);
+    void traverse_file();
+    void initialize_hash();
+    int DJBHash(std::string word);
+    int check_hash_proportion();
+
     std::string file_name;
-    int hash_size; //FIX??
-    Node* wordset_hash[10000];  // Main hash table with one Node pointer for each index in an array.
+    int hash_size;
+    int num_filled_indexes;
+
+    // Main hash table with Node pointer stored in each index of an array.
+    Node** wordset_hash;
 };

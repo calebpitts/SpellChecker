@@ -8,3 +8,4 @@
 */
 #include "./spellchecker.h"
 
+// Implement Levenshtein distance algorithm

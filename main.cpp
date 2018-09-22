@@ -35,8 +35,10 @@ std::string get_text_block_input() {
 int main() {
     std::string text_block;
     std::string file_name;
-    file_name  = get_file_name_input();
-    text_block = get_text_block_input();
+    // file_name  = get_file_name_input();
+    file_name = "big-wordset-cleaned.txt";
+    // text_block = get_text_block_input();
+    text_block = "testing";
 
     std::cout << "Text  Block INPUT: " << text_block << std::endl;
     std::cout << "Selected TXT FILE: " << file_name << std::endl;
@@ -47,12 +49,14 @@ int main() {
     SpellChecker s;
 
     w = WordSet(file_name);
-    w.initialize_hash();
-    w.traverse_file();
+    w.create_wordset_reference();
+
     // w.add_word();
     // w.add_word();
-    w.display_hash(); //REMOVE LATER
+    w.display_hash();  // REMOVE LATER
     // use hash map in SpellChecker >>>>>>>
+    // 
+    // ~Destructor method
 
 
     clock_t end = clock();
