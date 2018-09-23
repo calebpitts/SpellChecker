@@ -33,7 +33,7 @@ def write_cleaned_wordset(clean_wordset, new_file):
 
     # Writes clean wordset to a new txt file
     for word in clean_wordset:
-        file.write(word)
+        file.write(word.lower())  # Lowering each word for cases like 'the' and 'The'
 
     file.close()
 

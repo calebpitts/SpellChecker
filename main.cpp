@@ -51,13 +51,19 @@ int main() {
     w = WordSet(file_name);
     w.create_wordset_reference();
 
-    // w.add_word();
-    // w.add_word();
-    w.display_hash();  // REMOVE LATER
-    // use hash map in SpellChecker >>>>>>>
-    // 
-    // ~Destructor method
+    std::string word;
+    std::cout << "Enter text block here: ";
+    std::getline(std::cin, word);
 
+    bool found = w.lookup_word(word);
+    
+    if (found) {
+        std::cout << "Spelled correctly" << std::endl;
+    } else {
+        std::cout << "Incorrectly spelled." << std::endl;
+    }
+
+    // w.display_hash();  // REMOVE LATER
 
     clock_t end = clock();
     double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;

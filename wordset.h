@@ -19,20 +19,25 @@ class WordSet {
     void create_wordset_reference();
     void display_hash();
     void add_word(std::string word);  // Move later??
+    bool lookup_word(std::string word);
+    ~WordSet();  // Destructor
  private:
     struct Node {
         Node* next;
         Node* prev;
         std::string word;
     };
-    void traverse_file();
+    bool traverse_file(bool adjustHash);
     void initialize_hash();
     int DJBHash(std::string word);
-    int check_hash_proportion();
+    void destroy_hash();
 
     std::string file_name;
     int hash_size;
     int num_filled_indexes;
+
+    int hash_doubled_count;   // testing only
+    int ratio_test;  // testing only
 
     // Main hash table with Node pointer stored in each index of an array.
     Node** wordset_hash;
