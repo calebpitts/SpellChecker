@@ -5,14 +5,10 @@
              txt file.
 
     @author Caleb Pitts
-    @version 1.1 8/15/18
+    @9/15/18
 */
 
 #include "./wordset.h"
-#include <algorithm>
-
-
-
 
 
 void WordSet::create_wordset_reference() {
@@ -93,7 +89,6 @@ void WordSet::add_word(std::string word) {
         node->next = nullptr;
         wordset_hash[hashed_index] = node;
         num_filled_indexes++;  // Increment the number of filled indexes.
-        // std::cout << "incrementing..." << std::endl;
     } else {
         // Else adds node to the front of the linked list.
         // Saves the current first node in tempNode.
@@ -170,6 +165,6 @@ void WordSet::display_hash() {
             std::cout << std::endl;
         }
     }
-    std::cout << "Hash table adjusted in size (doubled) " << hash_doubled_count << " times." << std::endl;
-    std::cout << "Filled index to hash size ratio is " << ratio_test << "." << std::endl;
+    // std::cout << "Hash table adjusted in size (doubled) " << hash_doubled_count << " times." << std::endl;
+    // std::cout << "Filled index to hash size ratio is " << ratio_test << "." << std::endl;
 }

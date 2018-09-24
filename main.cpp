@@ -4,71 +4,131 @@
     		 the SpellChecker class module.
 
     @author Caleb Pitts
-    @version 1.1 8/15/18
+    @9/15/18
 */
 
 #include <iostream>
 #include <ctime>
+#include <sstream>
 #include "spellchecker.cpp"
-#include "wordset.cpp"  // MAYBE do inheritance??
+#include "wordset.cpp"
 
-// Returns the user's input text and file. The text will be cross referenced
-// with a correct set of words indicated by the selected file. Each file is
-// a different language.
-std::string get_file_name_input() {
-    std::string file_name;
-    std::cout << "Select the txt file/langauge you want: ";
-    std::getline(std::cin, file_name);
 
-    return file_name;
+void welcome() {
+    std::cout << "====================================\n"; 
+    std::cout << "==  Welcome to SpellChecker 1.0!  ==\n"; 
+    std::cout << "==                                ==\n";
+    std::cout << "==     Created by Caleb Pitts     ==\n";
+    std::cout << "==              2018              ==\n"; 
+    std::cout << "====================================\n";
+    std::cout << "\nHello, when you input a single word or multiple lines of text, I will check for spelling errors.\n";
+    std::cout << "I will also provide correct spelling suggestions if I spot any spelling errors.\n";
+    std::cout << "Unfortunately, this version does not check semantics or puntuation; only spelling errors.\n";
 }
 
-std::string get_text_block_input() {
-    std::string text_block;
-    std::cout << "Please enter your block of text that you would like to be spell checked: ";
-    std::getline(std::cin, text_block);
 
-    return text_block;
+std::string get_file_input() {
+    std::string file;
+    std::string input;
+    std::cout << "\nI have over 470k words from the english language as the defualt dictionary for me to check your words.\nWould you like you to provide your own txt file of a different set of words? \nNOTE: If yes, please make sure the custom txt file is within the same directory. y/[n]: ";
+    std::getline(std::cin, input);
+
+    if (input == "y" || input == "Y") {
+        std::cout << "Okay, what is the name of the custom txt file you'd like to use? ";
+        std::getline(std::cin, file);
+    } else {
+        std::cout << "Default dictionary being used." <<std::endl;
+        file = "big-wordset-cleaned.txt";
+    }
+
+    return file;
+}
+
+
+std::string get_text_input() {
+    std::string text;
+    std::cout << "\nNow enter a word, sentence, or entire text block for me to check for spelling errors below." << std::endl;
+    std::cout << "Input text here: ";
+    std::getline(std::cin, text);
+
+    return text;
+}
+
+
+
+std::vector<std::string> fetch_text_parts(std::string text) {
+    std::vector<std::string> text_parts;
+    std::stringstream ss(text);
+    std::string part;
+
+    while(std::getline(ss, part, ' ')){
+        std::cout << part << std::endl;
+        // std::cout << "part:" << part << std::endl;
+        text_parts.push_back(part);
+    }
+    for (std::vector<std::string>::const_iterator j = text_parts.begin(); j != text_parts.end(); j++) {
+        std::cout << "CONTENTS: " << *j << std::endl;
+    }
+    return text_parts;
 }
 
 
 int main() {
-    std::string text_block;
-    std::string file_name;
-    // file_name  = get_file_name_input();
-    file_name = "big-wordset-cleaned.txt";
-    // text_block = get_text_block_input();
-    text_block = "testing";
+    std::string file;
+    std::string text;
+    std::vector<std::string> text_parts;
+    std::vector<std::string> alternate_spellings;
+    std::vector<std::string> top_correct_alternate_spellings;
 
-    std::cout << "Text  Block INPUT: " << text_block << std::endl;
-    std::cout << "Selected TXT FILE: " << file_name << std::endl;
-
-    clock_t begin = clock();  // Begin timing section.
+    clock_t begin = clock();  // Program timer.
 
     WordSet w;
     SpellChecker s;
 
-    w = WordSet(file_name);
-    w.create_wordset_reference();
+    welcome();  // Welcome message.
+    file = get_file_input();  // Gets user-selected file input.
+    text = get_text_input();  // Gets user-selected text input.
 
-    std::string word;
-    std::cout << "Enter text block here: ";
-    std::getline(std::cin, word);
+    w = WordSet(file);
+    w.create_wordset_reference();  // Generates hash table from selected txt file.
 
-    bool found = w.lookup_word(word);
+    clock_t lookup_begin = clock();  // Word lookup timer.
+
+    std::cout << "looking at " << text << std::endl;
+    // text_parts = fetch_text_parts(text);  // Filters punctuation and fectches all individual words in the inputted text block.
+
+    // Checks if word is spelled correctly.
+    //for (std::vector<std::string>::const_iterator j = text_parts.begin(); j != text_parts.end(); j++) {
+        std::string word = text;//*j;
+        // std::cout << "\nChecking: " << word << std::endl;
+        if (!w.lookup_word(word)) {
+            std::cout << "\nIncorrectly spelled." << std::endl;
+            // generate_correct_alternate_spellings();
+            alternate_spellings = s.generate_alternate_spellings(word);
     
-    if (found) {
-        std::cout << "Spelled correctly" << std::endl;
-    } else {
-        std::cout << "Incorrectly spelled." << std::endl;
-    }
+            // Iterates through vector and adds alternate spelling to another vector if it is found in the wordset hash table
+            // I could have used 'auto' for iteration but I opted for the full vector declaration since some machines don't run c++11.
+            std::cout << "Did you mean: " <<std::endl;
+            for (std::vector<std::string>::const_iterator i = alternate_spellings.begin(); i != alternate_spellings.end(); i++) {
+                if (w.lookup_word(*i)) {
+                    std::cout << "    " << *i << std::endl;
+                }
+            }
+    
+            // ADD LEVENSHTEIN ALGORTHM HERE...
+            // std::string word = s.levenshtein_distance(string1, string2); // SHOULD RETURN VECTOR OF TOP WORDS (3 or 4 or 5) THEN ITERATE BELOW
+        } else {
+            std::cout << "Spelled correctly." << std::endl;
+        }
+    //}
 
-    // w.display_hash();  // REMOVE LATER
-
+    clock_t lookup_end = clock();
     clock_t end = clock();
-    double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+    double hash_elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+    double lookup_elapsed_secs = double(lookup_end - lookup_begin) / CLOCKS_PER_SEC;
 
-    std::cout << "Program ran in " << elapsed_secs << " seconds." << std::endl;
+    std::cout << "\n\nProgram ran in " << hash_elapsed_secs << " seconds." << std::endl;
+    std::cout << "Word lookup took " << lookup_elapsed_secs << " seconds." << std::endl;
 
     return 0;
 }

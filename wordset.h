@@ -5,7 +5,7 @@
              depending on the size of the specified txt file.
 
     @author Caleb Pitts
-    @version 1.1 8/15/18
+    @9/15/18
 */
 
 #include <iostream>
@@ -18,9 +18,9 @@ class WordSet {
     explicit WordSet(std::string file_name) : file_name(file_name) {}
     void create_wordset_reference();
     void display_hash();
-    void add_word(std::string word);  // Move later??
     bool lookup_word(std::string word);
     ~WordSet();  // Destructor
+
  private:
     struct Node {
         Node* next;
@@ -30,15 +30,13 @@ class WordSet {
     bool traverse_file(bool adjustHash);
     void initialize_hash();
     int DJBHash(std::string word);
+    void add_word(std::string word);
     void destroy_hash();
 
     std::string file_name;
     int hash_size;
     int num_filled_indexes;
 
-    int hash_doubled_count;   // testing only
-    int ratio_test;  // testing only
-
-    // Main hash table with Node pointer stored in each index of an array.
+    // Main hash table declaration with Node pointer stored in each index of an array.
     Node** wordset_hash;
 };
