@@ -16,14 +16,13 @@ class SpellChecker {
  public:
     SpellChecker() {}
     std::vector<std::string> generate_alternate_spellings(std::string word);
-    std::string levenshtein_distance(std::string str1, std::string str2);
 
  private:
-    void swap_word_chars(std::string word);
-    void insert_chars(std::string word);
-    void delete_word_chars(std::string word);
-    void replace_word_chars(std::string word);
-    void split_word_chars(std::string word);
+    void swap_word_chars(const std::string word);
+    void insert_chars(const std::string word);
+    void delete_word_chars(const std::string word);
+    void replace_word_chars(const std::string word);
+    void split_word_chars(const std::string word);
 
     // Holds all correct alternate spellings of the checked word.
     std::vector<std::string> alternate_spellings;
