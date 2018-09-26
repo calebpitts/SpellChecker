@@ -64,7 +64,7 @@ bool WordSet::traverse_file(bool adjustHash) {
 
 // Used DJB hash function implementation to return
 // a hashed index within the bounds of the hash array.
-int WordSet::DJBHash(std::string word) {
+int WordSet::DJBHash(const std::string word) {
     int hash = 5381;  // Most efficient hash constant.
 
     for (int i = 0; i < word.length(); i++) {
@@ -77,7 +77,7 @@ int WordSet::DJBHash(std::string word) {
 
 
 // Adds a word string parameter to the wordset hash table.
-void WordSet::add_word(std::string word) {
+void WordSet::add_word(const std::string word) {
     // Hashes word using the DJB hash function to reduce collisions.
     int hashed_index = DJBHash(word);
 
@@ -109,7 +109,7 @@ void WordSet::add_word(std::string word) {
 
 
 // Returns true if word argument is found in the wordset hash table.
-bool WordSet::lookup_word(std::string word) {
+bool WordSet::lookup_word(const std::string word) {
     int hashed_index = DJBHash(word);  // Gets word location.
     Node* currentNode = wordset_hash[hashed_index];
     while (currentNode != nullptr) {

@@ -10,6 +10,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <algorithm>
 
 // Takes in hash map with correct words.
 class SpellChecker {
@@ -23,6 +24,7 @@ class SpellChecker {
     void delete_word_chars(const std::string word);
     void replace_word_chars(const std::string word);
     void split_word_chars(const std::string word);
+    void sort_alternate_spellings();
 
     // Holds all correct alternate spellings of the checked word.
     std::vector<std::string> alternate_spellings;

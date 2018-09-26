@@ -18,7 +18,7 @@ class WordSet {
     explicit WordSet(std::string file_name) : file_name(file_name) {}
     void create_wordset_reference();
     void display_hash();
-    bool lookup_word(std::string word);
+    bool lookup_word(const std::string word);
     ~WordSet();  // Destructor
 
  private:
@@ -29,8 +29,8 @@ class WordSet {
     };
     bool traverse_file(bool adjustHash);
     void initialize_hash();
-    int DJBHash(std::string word);
-    void add_word(std::string word);
+    int DJBHash(const std::string word);
+    void add_word(const std::string word);
     void destroy_hash();
 
     std::string file_name;

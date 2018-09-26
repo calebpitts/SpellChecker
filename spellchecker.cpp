@@ -14,12 +14,13 @@
 // all possible edits to the misspelled word.
 std::vector<std::string> SpellChecker::generate_alternate_spellings(std::string word) {
     alphabet = "abcdefghijklmnopqrstuvwxyz";  // Constant used for string manipulation.
-    alternate_spellings.clear();  // Clears whatever alternate spellings was before.
+    alternate_spellings.clear();  // Clears whatever previous alternate spellings.
     swap_word_chars(word);
     insert_chars(word);
     delete_word_chars(word);
     replace_word_chars(word);
     split_word_chars(word);
+    sort_alternate_spellings();
 
     return alternate_spellings;
 }
@@ -81,6 +82,13 @@ void SpellChecker::split_word_chars(const std::string word) {
             copy.insert(i, " ");  // Inserts a space at index i in copy.
             alternate_spellings.push_back(copy);  // Adds alternate to vector.
     }
+}
+
+
+// Sorts alternate spellings alphabetically. Also removes duplicate spellings.
+void SpellChecker::sort_alternate_spellings() {
+    std::sort(alternate_spellings.begin(), alternate_spellings.end());
+    alternate_spellings.erase(std::unique(alternate_spellings.begin(), alternate_spellings.end()), alternate_spellings.end());
 }
 
 
