@@ -1,7 +1,10 @@
 /**
     SpellChecker, main.cpp
-    Purpose: Collects user input that will be spell checked by running
-    		 the SpellChecker class module.
+    Purpose: Collects user input and checks if each word is spelled correctly.
+    
+    Can also load their own wordset file. Correct alternate spellings are highlighted if 
+    it appears in the top1000 wordset, which indicates which words are the top 1000 words 
+    used in the english language.
 
     @author Caleb Pitts
     @9/15/18
@@ -57,7 +60,7 @@ std::string get_text_input() {
 }
 
 
-
+// Filters text input and stores each word as an element within a vector.
 std::vector<std::string> fetch_text_parts(std::string text) {
     std::vector<std::string> text_parts;
     std::stringstream ss(text);
@@ -117,6 +120,8 @@ void drive_text_part_checks(WordSet &w, WordSet &tw, std::string word, std::vect
 }
 
 
+// Drives all the functions that check if the word is spelled correctly and generates alternate correct
+// spellings if the word is spelled incorrectly.
 bool check_spelling(bool all_correct, std::string word, SpellChecker&s, WordSet &w, WordSet &tw) {
     std::vector<std::string> alternate_spellings;
     if (!w.lookup_word(word)) {
@@ -128,6 +133,7 @@ bool check_spelling(bool all_correct, std::string word, SpellChecker&s, WordSet 
 }
 
 
+// Iterates through all words from the text input.
 void drive_text_part_iteration(SpellChecker&s, WordSet &w, WordSet &tw, std::vector<std::string> text_parts) {
     bool all_correct = true;
 
@@ -140,6 +146,7 @@ void drive_text_part_iteration(SpellChecker&s, WordSet &w, WordSet &tw, std::vec
 }
 
 
+// Computation for runtime outputs.
 void compute_runtimes(clock_t begin, clock_t lookup_begin, clock_t end, clock_t lookup_end) {
     double hash_elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
     double lookup_elapsed_secs = double(lookup_end - lookup_begin) / CLOCKS_PER_SEC;
@@ -149,6 +156,7 @@ void compute_runtimes(clock_t begin, clock_t lookup_begin, clock_t end, clock_t 
 }
 
 
+// Enables a restart ability in the program.
 bool prompt_restart() {
     std::string input;
     std::cout << "\nWould you like another spellcheck? ([y]/n): ";
@@ -210,6 +218,5 @@ int main() {
         }
     }
     ///////////////////////////
-
     return 0;
 }
